@@ -1,10 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 import { registerSheet } from "react-native-actions-sheet";
 
-import { DemoSheet } from "./sheets";
+import { CountryPickerSheet, RateSheet } from "./sheets";
 
 const sheets = {
-  demo: DemoSheet,
+  "country-picker": CountryPickerSheet,
+  rate: RateSheet,
 } as const;
 
 export type Sheets = typeof sheets;
