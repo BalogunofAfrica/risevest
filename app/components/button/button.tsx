@@ -1,7 +1,9 @@
 import { useCallback, useMemo } from "react";
+import { match } from "ts-pattern";
 
 import { ActivityIndicator, Box, Text, TextProps } from "@/components/base";
 import { Icon, IconName } from "@/components/icon";
+import { px } from "@/constants";
 import { useTheme } from "@/theme";
 
 import { PressableSpring, PressableSpringProps } from "./pressable-spring";
@@ -11,11 +13,11 @@ export type ButtonProps = PressableSpringProps & {
   isLoading?: boolean;
   label: string;
   labelProps?: TextProps;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "outline";
 };
 
 /**
- * Custom `Button` component with two variants (primary & secondary)
+ * Custom `Button` component with two variants (primary, secondary & outline)
  * inherits Pressable Props
  * @see {@link PressableSpringProps}
  */
@@ -38,20 +40,35 @@ export function Button({
     },
     [isLoading, onPress],
   );
-  const iconStyle = useMemo(() => ({ marginRight: spacing.xs }), [spacing]);
+  const iconStyle = useMemo(() => ({ marginRight: spacing.s }), [spacing]);
+
+  const bg = match(variant)
+    .with("outline", () => "transparent" as const)
+    .with("primary", () => "teal" as const)
+    .with("secondary", () => "offWhite" as const)
+    .exhaustive();
+  const borderColor = match(variant)
+    .with("outline", () => "lightStroke" as const)
+    .otherwise(() => "transparent" as const);
+  const borderWidth = match(variant)
+    .with("outline", () => px(1))
+    .otherwise(() => 0);
+  const textColor = match(variant)
+    .with("primary", () => "white" as const)
+    .otherwise(() => "teal" as const);
 
   return (
     <PressableSpring
       alignItems="center"
-      backgroundColor={variant === "primary" ? "black40" : "white40"}
-      borderRadius="xl"
+      borderRadius="xs"
       justifyContent="center"
       onPress={handlePress}
-      paddingVertical="sm"
+      paddingVertical="m"
+      {...{ bg, borderColor, borderWidth }}
       {...rest}
     >
       {isLoading ? (
-        <ActivityIndicator type={variant === "primary" ? "light" : "dark"} />
+        <ActivityIndicator />
       ) : (
         <Box
           alignItems="center"
@@ -61,11 +78,10 @@ export function Button({
         >
           {icon && <Icon name={icon} size="m" style={iconStyle} />}
           <Text
-            color={variant === "primary" ? "white" : "black"}
-            fontWeight="400"
+            color={textColor}
+            fontFamily="DMSans_700Bold"
             lineHeight={undefined}
             textAlign="justify"
-            variant="h4"
             {...labelProps}
           >
             {label}

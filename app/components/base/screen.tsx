@@ -14,15 +14,15 @@ export function Screen({
   isLoading?: boolean;
 }) {
   return (
-    <SafeAreaBox backgroundColor="mainBackground" flex={1} {...rest}>
+    <SafeAreaBox backgroundColor="mainBg" flex={1} {...rest}>
       {children}
       {isLoading && (
         <Box
           alignItems="center"
-          backgroundColor="black40"
           justifyContent="center"
           style={StyleSheet.absoluteFillObject}
         >
+          <Box bg="black" opacity={0.4} style={StyleSheet.absoluteFillObject} />
           <ActivityIndicator size="large" />
         </Box>
       )}

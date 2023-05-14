@@ -2,7 +2,7 @@ import { createText } from "@shopify/restyle";
 import { forwardRef } from "react";
 
 import { Theme } from "@/theme";
-import { TFontValues } from "@/theme/config/fonts";
+import { TFontNames } from "@/theme/config/fonts";
 
 /**
  * Custom `Text` component with type checked layout stylings and props including typography.
@@ -18,7 +18,7 @@ export type TextProps = Omit<
   React.ComponentProps<typeof RestyleText>,
   "fontFamily"
 > & {
-  fontFamily?: TFontValues;
+  fontFamily?: TFontNames;
 };
 
 export const Text = forwardRef((props: TextProps, ref) => (

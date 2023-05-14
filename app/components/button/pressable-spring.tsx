@@ -1,4 +1,3 @@
-import { Pressable } from "react-native";
 import {
   Gesture,
   GestureDetector,
@@ -16,6 +15,8 @@ import Animated, {
 
 import { Box, BoxProps } from "@/components/base";
 
+import { Pressable, PressableProps } from "./pressable";
+
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 type TPressGesture = (
@@ -25,6 +26,7 @@ type TLongPressGesture = (
   event?: GestureStateChangeEvent<LongPressGestureHandlerEventPayload>,
 ) => void;
 export type PressableSpringProps = BoxProps & {
+  animation?: boolean;
   children?: React.ReactNode;
   disabled?: boolean;
   longPressDelayMs?: number;
@@ -39,6 +41,7 @@ export type PressableSpringProps = BoxProps & {
  * Custom themed `Pressable` component with three feedback types: `"no-feedback" | "opacity" | "scale";`.
  */
 export function PressableSpring({
+  animation = true,
   children,
   disabled,
   longPressDelayMs = 700,
@@ -84,7 +87,6 @@ export function PressableSpring({
       "worklet";
 
       scale.value = withSpring(scaleBaseValue, scaleConfig);
-      // runOnJS(hapticFeedback)();
     })
     .onFinalize((event, success) => {
       if (success && onLongPress) {
@@ -92,8 +94,16 @@ export function PressableSpring({
       }
     });
 
+  const pressableProps = animation
+    ? undefined
+    : ({
+        onLongPress,
+        onPress,
+        type: "opacity",
+      } as PressableProps);
+
   return (
-    <Pressable>
+    <Pressable {...pressableProps}>
       <GestureDetector
         gesture={Gesture.Exclusive(pressGesture, longPressGesture)}
         userSelect="none"

@@ -1,6 +1,6 @@
 import "@/components/sheet/config";
 
-import { GestureRoot, StatusBar } from "@/components/base";
+import { GestureRoot, SafeAreaBoxProvider, StatusBar } from "@/components/base";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { SheetProvider } from "@/components/sheet";
 import { ToastRoot } from "@/components/toast";
@@ -20,11 +20,13 @@ export function App() {
       <GestureRoot>
         <ApiProvider>
           <ThemeProvider>
-            <SheetProvider>
-              <RootNavigation />
-              <ToastRoot />
-              <StatusBar />
-            </SheetProvider>
+            <SafeAreaBoxProvider>
+              <SheetProvider>
+                <RootNavigation />
+                <ToastRoot />
+                <StatusBar />
+              </SheetProvider>
+            </SafeAreaBoxProvider>
           </ThemeProvider>
         </ApiProvider>
       </GestureRoot>

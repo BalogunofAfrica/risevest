@@ -31,7 +31,7 @@ export function ActivityIndicator({ type, ...rest }: ActivityIndicatorProps) {
 
   return (
     <RestyleIndicator
-      color={colorType === "light" ? colors.black : colors.white}
+      color={colorType === "dark" ? colors.black : colors.white}
       {...rest}
     />
   );
