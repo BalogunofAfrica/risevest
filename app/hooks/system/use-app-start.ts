@@ -1,28 +1,9 @@
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
+import { useFonts } from "@expo-google-fonts/dm-sans";
 
-import { loadFont } from "@/theme/load-fonts";
-import { logger } from "@/utils/functions";
+import { Fonts } from "@/theme/config/fonts";
 
 export function useAppStart() {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [fontsLoaded] = useFonts(Fonts);
 
-  // Load any resources or data that we need prior to rendering the app
-  useEffect(() => {
-    async function loadResourcesAndDataAsync() {
-      try {
-        await SplashScreen.preventAutoHideAsync();
-        await loadFont();
-      } catch (error) {
-        logger.warn(error);
-      } finally {
-        setLoadingComplete(true);
-        SplashScreen.hideAsync();
-      }
-    }
-
-    loadResourcesAndDataAsync();
-  }, []);
-
-  return isLoadingComplete;
+  return fontsLoaded;
 }
