@@ -1,10 +1,10 @@
 import Toast, { ToastShowParams } from "react-native-toast-message";
 
 // eslint-disable-next-line import/no-cycle
-import { ToastConfig } from "../config";
+import { ToastNames } from "../config";
 
 type ToastShow = ToastShowParams & {
-  type: keyof ToastConfig;
+  type: ToastNames;
 };
 
 export const toastMethods = {

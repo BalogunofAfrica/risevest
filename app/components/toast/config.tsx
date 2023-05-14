@@ -1,15 +1,10 @@
-import {
-  ToastConfig as RNToastConfig,
-  ToastConfigParams as RNToastConfigParams,
-} from "react-native-toast-message";
+import { AlertToast, AlertToastProps } from "./toasts";
 
-import { DemoToast, DemoToastProps } from "./toasts";
-
-type CustomToastConfig = {
-  demo(props: RNToastConfigParams<DemoToastProps>): JSX.Element;
+type ToastConfig = {
+  alert(props: AlertToastProps): JSX.Element;
 };
-export type ToastConfig = CustomToastConfig & RNToastConfig;
+export type ToastNames = keyof ToastConfig;
 
 export const toastConfig: ToastConfig = {
-  demo: DemoToast,
+  alert: AlertToast,
 };

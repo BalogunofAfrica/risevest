@@ -1,1 +1,1 @@
-export * from "./demo-toast";
+export * from "./alert-toast";
