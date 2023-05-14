@@ -1,13 +1,8 @@
 import { HttpError } from "@/utils/classes";
 
-export function throwApiException(
-  message: string,
-  name: string,
-  status?: string | number,
-) {
+export function throwApiException(message: string, status?: string | number) {
   const error = new HttpError({
     message,
-    name,
     status,
   });
 
