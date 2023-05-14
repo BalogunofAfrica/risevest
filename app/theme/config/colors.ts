@@ -1,17 +1,17 @@
-import { palette } from "./palette";
+import { palette, stringifyPaletteValues } from "./palette";
 
-export const lightColors = {
+export const rawColors = {
   ...palette,
-  mainBackground: palette.white,
-  placeholderColor: palette.black40,
+  mainBg: palette.white,
   textColor: palette.black,
 };
+export const colors = stringifyPaletteValues(rawColors);
 
-export const darkColors = {
-  ...lightColors,
-  mainBackground: palette.black,
-  placeholderColor: palette.white40,
-  textColor: palette.white,
+export const gradientColors = {
+  white: [
+    rawColors.white.alpha(0.8).string(),
+    rawColors.white.alpha(0).string(),
+  ],
 };
 
-export type TColors = keyof typeof lightColors;
+export type TColors = keyof typeof colors;

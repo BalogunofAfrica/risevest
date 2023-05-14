@@ -1,21 +1,21 @@
-import { wp } from "@/constants";
+import { px } from "@/constants";
 
 export const cardVariants = {
   border: {
     borderColor: "cardColorB",
     borderRadius: "xl",
-    borderWidth: wp(1),
+    borderWidth: px(1),
     paddingBottom: "xl",
     paddingHorizontal: "l",
     paddingTop: "l",
   },
   dashed: {
     alignItems: "center",
-    backgroundColor: "mainBackground",
+    backgroundColor: "mainBg",
     borderColor: "cardColorB",
     borderRadius: "xl",
     borderStyle: "dashed",
-    borderWidth: wp(2),
+    borderWidth: px(2),
     justifyContent: "center",
   },
   defaults: {},
