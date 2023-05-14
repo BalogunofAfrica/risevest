@@ -3,10 +3,10 @@ import {
   FieldValues,
   Path,
   RegisterOptions,
-  UnPackAsyncDefaultValues,
   useController,
 } from "react-hook-form";
 
+import { MaterialInput, MaterialInputProps } from "./material-input";
 import { RegularInput, RegularInputProps } from "./regular-input";
 
 type TRule = Omit<
@@ -14,25 +14,36 @@ type TRule = Omit<
   "valueAsNumber" | "valueAsDate" | "setValueAs"
 >;
 
-export type RuleType<T> = { [name in keyof T]: TRule };
-export type InputControllerType<T extends FieldValues> = {
-  name: Path<UnPackAsyncDefaultValues<T>>;
+type FormInputControllerType<T extends FieldValues> = {
+  name: Path<T>;
   control: Control<T>;
   rules?: TRule;
 };
 
-export type FormInputProps<T extends FieldValues> = RegularInputProps &
-  InputControllerType<T>;
+type RegularProps<T extends FieldValues> = RegularInputProps &
+  FormInputControllerType<T> & {
+    material?: false;
+  };
+type MaterialProps<T extends FieldValues> = MaterialInputProps &
+  FormInputControllerType<T> & {
+    material?: true;
+  };
+
+export type FormInputProps<T extends FieldValues> =
+  | RegularProps<T>
+  | MaterialProps<T>;
 
 /**
  * Custom `TextInput` component that supports `react-hook-form`.
  */
 export function FormInput<T extends FieldValues>({
   control,
+  material = true,
   name,
   rules,
   ...rest
 }: FormInputProps<T>) {
+  const Input = material ? MaterialInput : RegularInput;
   const { field, fieldState } = useController({
     control,
     name,
@@ -40,11 +51,11 @@ export function FormInput<T extends FieldValues>({
   });
 
   return (
-    <RegularInput
+    <Input
       footer={fieldState?.error?.message}
       onChangeText={field.onChange}
       onRightIconPress={() => field.onChange("")}
-      // @ts-expect-error error from refs
+      // @ts-expect-error TODO: fix type error
       ref={field.ref}
       value={field.value as string}
       {...rest}

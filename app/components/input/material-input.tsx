@@ -1,10 +1,12 @@
-import { forwardRef, useCallback, useState } from "react";
+import { forwardRef, useCallback, useEffect, useState } from "react";
 import { TextInput as RNTextInput } from "react-native";
 import Animated, {
   Easing,
   FadeIn,
   FadeOut,
+  interpolate,
   interpolateColor,
+  Layout,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -29,16 +31,16 @@ import { FontNames } from "@/theme/config/fonts";
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
-export type RegularInputRefType = RNTextInput;
-export interface RegularInputProps
+export type MaterialInputRefType = RNTextInput;
+export interface MaterialInputProps
   extends Omit<TextInputProps, "onBlur" | "onFocus"> {
   containerProps?: BoxProps;
   disabled?: boolean;
   footer?: string;
   footerProps?: TextProps;
-  header?: string;
-  headerProps?: TextProps;
   inputContainerProps?: BoxProps;
+  label?: string;
+  labelProps?: TextProps;
   leftComponent?: React.ReactNode;
   leftIcon?: IconName;
   renderLoadingIcon?: boolean;
@@ -58,16 +60,16 @@ const config: WithTimingConfig = { easing: Easing.ease };
 /**
  * Custom  animated`TextInput` component.
  */
-export const RegularInput = forwardRef<RNTextInput, RegularInputProps>(
+export const MaterialInput = forwardRef<RNTextInput, MaterialInputProps>(
   (
     {
       containerProps,
       footer,
       footerProps,
-      header,
-      headerProps,
-      inputContainerProps,
+      label,
+      labelProps,
       leftComponent,
+      inputContainerProps,
       leftIcon,
       renderLoadingIcon,
       rightComponent,
@@ -97,12 +99,21 @@ export const RegularInput = forwardRef<RNTextInput, RegularInputProps>(
       };
     });
 
+    useEffect(() => {
+      if (inputProps.value) {
+        transition.value = withTiming(focusTransition, config);
+      }
+    }, [inputProps.value, transition]);
+
     const onBlur = useCallback(() => {
       if (whenBlurred) {
         whenBlurred();
       }
-      transition.value = withTiming(blurTransition, config);
-    }, [transition, whenBlurred]);
+
+      if (!inputProps.value) {
+        transition.value = withTiming(blurTransition, config);
+      }
+    }, [inputProps.value, transition, whenBlurred]);
     const onFocus = useCallback(() => {
       if (whenFocused) {
         whenFocused();
@@ -114,25 +125,50 @@ export const RegularInput = forwardRef<RNTextInput, RegularInputProps>(
       [],
     );
 
+    const [height, setHeight] = useState(0);
+    const [inputOffsetX, setInputOffsetX] = useState(0);
+
+    const labelStyle = useAnimatedStyle(() => {
+      const translateY = interpolate(
+        transition.value,
+        [0, 1],
+        [0, -height / 2],
+      );
+      const translateX = interpolate(
+        transition.value,
+        [0, 1],
+        [inputOffsetX, 0],
+      );
+
+      return {
+        transform: [{ translateY }, { translateX }],
+      };
+    });
+    const labelTextStyle = useAnimatedStyle(() => {
+      const color = interpolateColor(
+        transition.value,
+        [0, 1],
+        [colors.black, colors.teal],
+      );
+      const fontSize = interpolate(transition.value, [0, 1], [14, 10]);
+
+      return {
+        color,
+        fontSize,
+      };
+    });
+
     return (
-      <Box {...containerProps}>
-        {header ? (
-          <Text
-            color="textColor"
-            fontFamily="DMSans_700Bold"
-            marginBottom="sl"
-            textAlign="left"
-            variant="h6"
-            {...headerProps}
-          >
-            {header}
-          </Text>
-        ) : null}
+      <AnimatedBox layout={Layout} {...containerProps}>
         <AnimatedBox
+          alignItems="center"
           borderRadius="xs"
           borderWidth={px(1)}
           flexDirection="row"
-          overflow="hidden"
+          gap="sm"
+          onLayout={(event) => {
+            setHeight(event.nativeEvent.layout.height);
+          }}
           style={animatedStyle}
           {...inputContainerProps}
         >
@@ -143,13 +179,36 @@ export const RegularInput = forwardRef<RNTextInput, RegularInputProps>(
               </Pressable>
             </Box>
           )}
+          {label ? (
+            <AnimatedBox
+              alignItems="center"
+              bg="mainBg"
+              mx="s"
+              pointerEvents="none"
+              position="absolute"
+              px="sm"
+              style={labelStyle}
+            >
+              <AnimatedText
+                color="textColor"
+                fontFamily="DMSans_700Bold"
+                style={labelTextStyle}
+                textAlign="left"
+                {...labelProps}
+              >
+                {label}
+              </AnimatedText>
+            </AnimatedBox>
+          ) : null}
           <TextInput
             autoCapitalize="none"
-            flex={1}
             onBlur={onBlur}
             onFocus={onFocus}
-            paddingHorizontal="m"
-            paddingVertical="m"
+            onLayout={(event) => {
+              setInputOffsetX(event.nativeEvent.layout.x);
+            }}
+            px="sl"
+            py="m"
             ref={ref}
             secureTextEntry={secureText}
             selectionColor={colors.teal}
@@ -161,6 +220,7 @@ export const RegularInput = forwardRef<RNTextInput, RegularInputProps>(
                 textAlign: "left",
               },
             ]}
+            width="95%"
             {...inputProps}
           />
           {renderLoadingIcon ? (
@@ -201,9 +261,7 @@ export const RegularInput = forwardRef<RNTextInput, RegularInputProps>(
             {footer}
           </AnimatedText>
         ) : null}
-      </Box>
+      </AnimatedBox>
     );
   },
 );
-
-// ponent);
