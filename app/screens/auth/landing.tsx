@@ -249,6 +249,8 @@ export function Landing() {
           <Pressable
             bg="offWhite"
             borderRadius="xs"
+            height={px(52)}
+            justifyContent="center"
             onPress={handlePreviousPress}
             p="m"
             style={{ transform: [{ rotate: "180deg" }] }}
@@ -261,11 +263,14 @@ export function Landing() {
             borderRadius="xs"
             flexDirection="row"
             gap="l"
+            height={px(52)}
             justifyContent="space-between"
             onPress={handleNextPress}
             p="m"
           >
-            <AnimatedText style={textStyle}>Next</AnimatedText>
+            <AnimatedText fontFamily="DMSans_700Bold" style={textStyle}>
+              Next
+            </AnimatedText>
             <Chevron animatedProps={strokeStyle} />
           </Pressable>
         </AnimatedBox>
