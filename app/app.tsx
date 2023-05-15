@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/theme";
 
 import { useAppStart } from "./hooks/system";
 import { RootNavigation } from "./navigation";
+import { StoreProvider } from "./services/storage";
 
 export function App() {
   const hasAppLoaded = useAppStart();
@@ -18,17 +19,19 @@ export function App() {
   return (
     <ErrorBoundary>
       <GestureRoot>
-        <ApiProvider>
-          <ThemeProvider>
-            <SafeAreaBoxProvider>
-              <SheetProvider>
-                <RootNavigation />
-                <ToastRoot />
-                <StatusBar />
-              </SheetProvider>
-            </SafeAreaBoxProvider>
-          </ThemeProvider>
-        </ApiProvider>
+        <StoreProvider>
+          <ApiProvider>
+            <ThemeProvider>
+              <SafeAreaBoxProvider>
+                <SheetProvider>
+                  <RootNavigation />
+                  <ToastRoot />
+                  <StatusBar />
+                </SheetProvider>
+              </SafeAreaBoxProvider>
+            </ThemeProvider>
+          </ApiProvider>
+        </StoreProvider>
       </GestureRoot>
     </ErrorBoundary>
   );
