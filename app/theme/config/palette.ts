@@ -4,6 +4,7 @@ import { objectKeys } from "@/utils/functions";
 
 export const palette = {
   black: Color("#222222"),
+  darkGrayishBlue: Color("#94A1AD"),
   error: Color("#FF0101"),
   grayishOrange: Color("#FEFAF7"),
   grayishPink: Color("#FDF4F9"),
@@ -20,6 +21,7 @@ export const palette = {
   teal: Color("#0898A0"),
   teal2: Color("#41BCC4"),
   transparent: Color("transparent"),
+  transparentBlack: Color("#000").alpha(0.4),
   white: Color("#FFFFFF"),
 };
 
