@@ -69,6 +69,7 @@ export function DateInput<T extends FieldValues>({
           editable={false}
           footer={controller.fieldState?.error?.message}
           placeholderTextColor={theme.colors.black}
+          pointerEvents="none"
           // @ts-expect-error TODO: fix type error
           ref={controller.field.ref}
           rightComponent={
