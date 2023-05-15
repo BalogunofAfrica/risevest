@@ -1,2 +1,1 @@
-export type { Navigation } from "./navigation";
-export { navigation, navigationRef } from "./navigation";
+export * from "./navigation";
