@@ -1,2 +1,2 @@
-export * from "./use-is-online";
 export * from "./use-online-manager";
+export * from "./use-online-status";

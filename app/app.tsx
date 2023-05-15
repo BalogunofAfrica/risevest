@@ -4,14 +4,19 @@ import { GestureRoot, SafeAreaBoxProvider, StatusBar } from "@/components/base";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { SheetProvider } from "@/components/sheet";
 import { ToastRoot } from "@/components/toast";
-import { ApiProvider } from "@/services/api";
+import { ApiProvider, onAppStateChange } from "@/services/api";
 import { ThemeProvider } from "@/theme";
 
-import { useAppStart } from "./hooks/system";
+import { useOnlineManager, useOnlineStatus } from "./hooks/network";
+import { useAppStart, useAppState } from "./hooks/system";
 import { RootNavigation } from "./navigation";
 import { StoreProvider } from "./services/storage";
 
 export function App() {
+  useOnlineStatus();
+  useOnlineManager();
+  useAppState(onAppStateChange);
+
   const hasAppLoaded = useAppStart();
 
   if (!hasAppLoaded) return null;
