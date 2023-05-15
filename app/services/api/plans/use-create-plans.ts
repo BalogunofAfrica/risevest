@@ -5,25 +5,24 @@ import { z } from "zod";
 import { fetcher } from "@/services/api/fetcher";
 
 const request = z.object({
-  date_of_birth: z.string(),
-  email_address: z.string(),
-  first_name: z.string(),
-  last_name: z.string(),
-  password: z.string(),
+  maturity_date: z.date(),
+  plan_name: z.string(),
+  target_amount: z.number(),
 });
 
 const response = z.object({
   created_at: z.string(),
-  date_of_birth: z.string(),
-  email_address: z.string(),
-  first_name: z.string(),
   id: z.string(),
-  last_name: z.string(),
-  phone_number: z.string().nullable(),
-  username: z.string().nullable(),
+  invested_amount: z.number(),
+  maturity_date: z.string(),
+  plan_name: z.string(),
+  returns: z.array(z.unknown()),
+  target_amount: z.number().nullable(),
+  total_returns: z.number().nullable(),
+  user_id: z.string(),
 });
 
-const createPlans = async (props: z.infer<typeof request>) => {
+const createPlan = async (props: z.infer<typeof request>) => {
   const body = JSON.stringify(request.parse(props));
   const result = await fetcher(`${BASE_URL}/plans`, {
     body,
@@ -33,7 +32,7 @@ const createPlans = async (props: z.infer<typeof request>) => {
   return response.parse(result);
 };
 
-export const useCreatePlans = () =>
+export const useCreatePlan = () =>
   useMutation({
-    mutationFn: createPlans,
+    mutationFn: createPlan,
   });

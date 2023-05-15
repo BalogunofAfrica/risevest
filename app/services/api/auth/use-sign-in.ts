@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 
 import { fetcher } from "@/services/api/fetcher";
+import { useGlobalStore } from "@/services/storage";
 
 const request = z.object({
   email_address: z.string(),
@@ -30,7 +31,16 @@ const signIn = async (props: z.infer<typeof request>) => {
   return response.parse(result);
 };
 
-export const useSignIn = () =>
-  useMutation({
+export const useSignIn = () => {
+  const store = useGlobalStore();
+
+  return useMutation({
     mutationFn: signIn,
+    onSuccess: (props) =>
+      store.setter({
+        firstName: props.first_name,
+        lastName: props.last_name,
+        token: props.token,
+      }),
   });
+};

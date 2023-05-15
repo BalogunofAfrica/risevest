@@ -7,19 +7,15 @@ import { fetcher } from "@/services/api/fetcher";
 const request = z.string();
 
 const response = z.object({
-  item_count: z.number(),
-  items: z.array(
-    z.object({
-      created_at: z.date(),
-      id: z.string(),
-      invested_amount: z.number().nullable(),
-      maturity_date: z.date().nullable(),
-      plan_name: z.string(),
-      target_amount: z.number(),
-      total_returns: z.number().nullable(),
-      user_id: z.string(),
-    }),
-  ),
+  created_at: z.string(),
+  id: z.string(),
+  invested_amount: z.number(),
+  maturity_date: z.string(),
+  plan_name: z.string(),
+  returns: z.array(z.unknown()),
+  target_amount: z.number(),
+  total_returns: z.number(),
+  user_id: z.string(),
 });
 
 const getPlan = async (id: z.infer<typeof request>) => {

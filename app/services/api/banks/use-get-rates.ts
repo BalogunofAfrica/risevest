@@ -5,8 +5,8 @@ import { z } from "zod";
 import { fetcher } from "@/services/api/fetcher";
 
 const response = z.object({
-  buy_rate: z.number(),
-  sell_rate: z.number(),
+  buy_rate: z.number().default(0),
+  sell_rate: z.number().default(0),
 });
 
 const getRates = async () => {

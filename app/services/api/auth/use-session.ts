@@ -12,7 +12,7 @@ const response = z.object({
   id: z.string(),
   last_name: z.string(),
   total_balance: z.number(),
-  total_returns: z.number(),
+  total_returns: z.number().nullable(),
   username: z.string().nullable(),
 });
 
