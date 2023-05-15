@@ -48,8 +48,8 @@ export function RateSheet(props: SheetProps) {
     <ActionSheet
       containerStyle={{
         backgroundColor: theme.colors.mainBg,
-        borderTopLeftRadius: theme.borderRadii.s,
-        borderTopRightRadius: theme.borderRadii.s,
+        borderTopLeftRadius: theme.borderRadii.sm,
+        borderTopRightRadius: theme.borderRadii.sm,
         overflow: "hidden",
         padding: 0,
       }}
@@ -61,9 +61,9 @@ export function RateSheet(props: SheetProps) {
       }}
     >
       <Box
-        backgroundColor="mainBg"
-        borderTopLeftRadius="xxl"
-        borderTopRightRadius="xxl"
+        bg="mainBg"
+        borderTopLeftRadius="sm"
+        borderTopRightRadius="sm"
         gap="l"
         height={SHEET_HEIGHT}
         pb="sl"

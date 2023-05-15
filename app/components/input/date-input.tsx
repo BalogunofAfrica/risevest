@@ -82,7 +82,7 @@ export function DateInput<T extends FieldValues>({
         />
       </Pressable>
       <Picker
-        androidVariant="nativeAndroid"
+        androidVariant="iosClone"
         date={new Date()}
         locale="en"
         modal
@@ -96,6 +96,7 @@ export function DateInput<T extends FieldValues>({
         }}
         open={dateOpen}
         textColor="#000"
+        theme="light"
         {...pickerProps}
       />
     </>

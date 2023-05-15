@@ -6,6 +6,7 @@ import { Box, Text } from "@/components/base";
 import { Pressable } from "@/components/button";
 import { RegularInput } from "@/components/input";
 import { px, vh, vw } from "@/constants/layout";
+import { useLazyResult } from "@/hooks/list";
 import {
   countryCodes,
   CountryNameLocale,
@@ -38,6 +39,7 @@ const Content = ({
     }
     return data;
   }, [data, locale, search]);
+  const lazyResult = useLazyResult(searchedResults, () => {});
 
   return (
     <Box
@@ -56,7 +58,7 @@ const Content = ({
         placeholder="Search Country"
       />
       <FlatList
-        data={searchedResults}
+        data={lazyResult.lazyResult}
         keyExtractor={(item) => item.code}
         ListEmptyComponent={
           <Text marginHorizontal="sl" textAlign="left" variant="p">
@@ -64,6 +66,7 @@ const Content = ({
           </Text>
         }
         nestedScrollEnabled
+        onEndReached={lazyResult.fetchNextPage}
         renderItem={({ item }) => (
           <Pressable
             alignItems="center"
@@ -122,19 +125,22 @@ export function CountryPickerSheet(props: SheetProps<CountryPickerProps>) {
     <ActionSheet
       containerStyle={{
         backgroundColor: theme.colors.mainBg,
-        borderTopLeftRadius: theme.borderRadii.s,
-        borderTopRightRadius: theme.borderRadii.s,
+        borderTopLeftRadius: theme.borderRadii.sm,
+        borderTopRightRadius: theme.borderRadii.sm,
         overflow: "hidden",
         padding: 0,
       }}
       defaultOverlayOpacity={0.4}
-      // gestureEnabled
       id={props.sheetId}
       indicatorStyle={{
         height: 0,
       }}
     >
-      <Box height={SHEET_HEIGHT}>
+      <Box
+        borderTopLeftRadius="sm"
+        borderTopRightRadius="sm"
+        height={SHEET_HEIGHT}
+      >
         <Content
           data={nonExcludedCountries}
           locale={locale}
