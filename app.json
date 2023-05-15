@@ -25,6 +25,11 @@
         "backgroundColor": "#0898A0"
       },
       "package": "com.risevest.rntest"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9be20b05-6741-4be9-8c1f-c0703f198468"
+      }
     }
   }
 }
