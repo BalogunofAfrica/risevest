@@ -16,13 +16,15 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.risevest.rntest"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./app-assets/adaptive-icon.png",
         "backgroundColor": "#0898A0"
-      }
+      },
+      "package": "com.risevest.rntest"
     }
   }
 }
