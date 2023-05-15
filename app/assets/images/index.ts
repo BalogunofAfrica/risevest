@@ -1,6 +1,10 @@
+export { default as businessPlan } from "./business-plan.png";
 export { default as dollar } from "./dollar.png";
 export { default as done } from "./done.png";
 export { default as gift } from "./gift.png";
 export { default as gradientBg } from "./gradient-bg.png";
 export { default as plan } from "./plan.png";
+export { default as planHeaderBg } from "./plan-header-bg.png";
 export { default as time } from "./time.png";
+export { default as wealthPlan } from "./wealth-plan.png";
+export { default as weddingPlan } from "./wedding-plan.png";
