@@ -1,5 +1,5 @@
 // import Picker from "@react-native-community/datetimepicker";
-import { useState } from "react";
+import { useImperativeHandle, useState } from "react";
 import {
   Control,
   FieldValues,
@@ -52,7 +52,7 @@ export function DateInput<T extends FieldValues>({
   pickerProps,
   rules,
   ...props
-}: DateInputProps<T>) {
+}: Omit<DateInputProps<T>, "ref">) {
   const Input = material ? MaterialInput : RegularInput;
   const controller = useController({
     control,
@@ -62,6 +62,16 @@ export function DateInput<T extends FieldValues>({
   const theme = useTheme();
   const [dateOpen, setDateOpen] = useState(false);
 
+  useImperativeHandle(controller.field.ref, () => ({
+    blur: () => {
+      setDateOpen(false);
+    },
+    focus: () => {
+      setDateOpen(true);
+    },
+    isFocused: () => dateOpen,
+  }));
+
   return (
     <>
       <Pressable onPress={() => setDateOpen(true)}>
@@ -70,8 +80,6 @@ export function DateInput<T extends FieldValues>({
           footer={controller.fieldState?.error?.message}
           placeholderTextColor={theme.colors.black}
           pointerEvents="none"
-          // @ts-expect-error TODO: fix type error
-          ref={controller.field.ref}
           rightComponent={
             <Box justifyContent="center" mr="xxl">
               <Icon name="calendar" size="sl" />
